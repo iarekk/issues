@@ -8,7 +8,7 @@ defmodule Issues.CLI do
   """
 
   def run(argv) do
-    argv |> parse_args |> process
+    argv |> parse_args |> process |> IO.inspect()
   end
 
   @doc """
@@ -34,8 +34,24 @@ defmodule Issues.CLI do
     System.halt(0)
   end
 
-  def process({user, project, _count}) do
-    Issues.GithubIssues.fetch(user, project) |> decode_response()
+  def process({user, project, count}) do
+    Issues.GithubIssues.fetch(user, project)
+    |> decode_response()
+    |> sort_into_descending_order()
+    |> last(count)
+  end
+
+  def last(list, count) do
+    list
+    |> Enum.take(count)
+    |> Enum.reverse()
+  end
+
+  def sort_into_descending_order(list_of_issues) do
+    list_of_issues
+    |> Enum.sort(fn i1, i2 ->
+      i1["created_at"] >= i2["created_at"]
+    end)
   end
 
   defp decode_response({:ok, body}), do: body
