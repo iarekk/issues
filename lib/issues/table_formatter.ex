@@ -20,7 +20,8 @@ defmodule Issues.TableFormatter do
   end
 
   def widths_of(headers, columns) do
-    cvhs = Enum.zip(headers, columns) |> Enum.map(fn {h, c} -> [h | c] end)
+    phs = Enum.map(headers, &printable/1)
+    cvhs = Enum.zip(phs, columns) |> Enum.map(fn {h, c} -> [h | c] end)
     for col <- cvhs, do: col |> map(&String.length/1) |> max
   end
 
