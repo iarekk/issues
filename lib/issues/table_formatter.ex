@@ -1,5 +1,5 @@
 defmodule Issues.TableFormatter do
-  import Enum, only: [each: 2, map: 2, map_join: 3, max: 1]
+  import Enum, only: [each: 2, map: 2, map_join: 3, max: 1, zip: 2]
 
   def print_table_for_columns(rows, headers) do
     with data_by_columns = split_into_columns(rows, headers),
@@ -20,8 +20,8 @@ defmodule Issues.TableFormatter do
   end
 
   def widths_of(headers, columns) do
-    phs = Enum.map(headers, &printable/1)
-    cvhs = Enum.zip(phs, columns) |> Enum.map(fn {h, c} -> [h | c] end)
+    phs = map(headers, &printable/1)
+    cvhs = zip(phs, columns) |> map(fn {h, c} -> [h | c] end)
     for col <- cvhs, do: col |> map(&String.length/1) |> max
   end
 
