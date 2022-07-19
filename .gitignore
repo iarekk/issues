@@ -27,3 +27,7 @@ issues-*.tar
 /tmp
 
 issues
+
+# Common additions for various operating systems:
+# MacOS
+.DS_Store

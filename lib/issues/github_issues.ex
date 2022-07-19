@@ -19,6 +19,7 @@ defmodule Issues.GithubIssues do
   def handle_response({:ok, %{status_code: status_code, body: body}}) do
     Logger.info("Received response with status code=#{status_code}")
     Logger.debug(fn -> inspect(body) end)
+
     {
       status_code |> check_for_error,
       body |> Poison.Parser.parse!()
