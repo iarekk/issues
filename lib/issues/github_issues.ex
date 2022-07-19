@@ -5,7 +5,7 @@ defmodule Issues.GithubIssues do
   @github_url Application.get_env(:issues, :github_url)
 
   def fetch(user, project) do
-    Logger.info("Feching #{user}'s project #{project}")
+    Logger.info("Fetching #{user}'s project #{project}")
 
     issues_url(user, project)
     |> HTTPoison.get(@user_agent)
