@@ -29,12 +29,29 @@ defmodule Issues.TableFormatter do
     map_join(column_widths, " | ", fn w -> "~-#{w}s" end) <> "~n"
   end
 
+  @doc """
+  Generate the line below the column headings.
+  It's a string of hyphens with the + sign where the vertical bars go.any()
+
+  ## Example
+      iex(1)> Issues.TableFormatter.separator([1,2,3])
+      "--+----+----"
+  """
   def separator(column_widths) do
     map_join(column_widths, "-+-", fn w -> List.duplicate("-", w) end)
   end
 
-  defp printable(str) when is_binary(str), do: str
-  defp printable(str), do: to_string(str)
+  @doc """
+  Returns a string representation of the passed parameter.
+
+  ## Example
+      iex>Issues.TableFormatter.printable("a")
+      "a"
+      iex>Issues.TableFormatter.printable(99.9)
+      "99.9"
+  """
+  def printable(str) when is_binary(str), do: str
+  def printable(str), do: to_string(str)
 
   def puts_one_line_in_columns(row, format) do
     :io.format(format, row)
